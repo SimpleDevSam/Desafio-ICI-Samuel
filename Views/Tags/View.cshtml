@@ -1,0 +1,16 @@
+﻿@model Desafio_ICI_Samuel.Features.Tags.Get.GetTagVm
+
+<h1>Ver Tag</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.Id</dd>
+
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+</dl>
+
+<div class="d-flex gap-2">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit tag</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
+</div>

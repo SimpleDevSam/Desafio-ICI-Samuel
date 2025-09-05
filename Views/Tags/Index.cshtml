@@ -1,0 +1,74 @@
+﻿@model Desafio_ICI_Samuel.Features.Tags.List.ListTagsVm
+
+<h1>Tags</h1>
+
+@if (TempData["msg"] is string ok)
+{
+     <div class="alert alert-success">@ok</div>
+}
+@if (TempData["err"] is string err)
+{
+     <div class="alert alert-danger">@err</div>
+}
+
+<form id="__af" method="post">@Html.AntiForgeryToken()</form>
+<a asp-action="Create" class="btn btn-primary">Create Tag</a>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th style="width:100px">ID</th>
+            <th>Name</th>
+            <th style="width:260px">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Rows)
+        {
+            <tr id="row-@r.Id">
+                <td>@r.Id</td>
+                <td>@r.Nome</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-delete-tag="@r.Id">Delete</button>
+                    <!-- <a asp-action="Details" asp-route-id="@r.Id" class="btn btn-sm btn-outline-secondary ms-1">View</a> -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        (function(){
+          const token = document.querySelector('#__af input[name="__RequestVerificationToken"]').value;
+
+          document.querySelectorAll('[data-delete-tag]').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              const id = btn.getAttribute('data-delete-tag');
+
+              if(!confirm('Deleter essa tag?'))
+              {
+                  return;
+              }
+
+              try {
+                const resp = await fetch(`/tags/${id}/delete`, {
+                  method: 'DELETE',
+                  headers: { 'RequestVerificationToken': token, 'Accept': 'text/plain' }
+                });
+
+                if (resp.status === 204) {
+                  // remove row or reload
+                  document.getElementById(`row-${id}`)?.remove();
+                } else {
+                  const text = await resp.text();
+                  alert(text || 'Failed to delete tag.');
+                }
+              } catch (err) {
+                alert('Network error while deleting tag.');
+              }
+            });
+          });
+        })();
+    </script>
+}

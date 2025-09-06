@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.Delete;
 
-public sealed class DeleteTagHandler
+public sealed class DeleteTagHandler : IDeleteTagHandler
 {
     private readonly AppDbContext _db;
     public DeleteTagHandler(AppDbContext db) => _db = db;

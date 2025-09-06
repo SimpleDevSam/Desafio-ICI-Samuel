@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.Get;
-public sealed class ViewTagHandler
+public class GetTagHandler : IGetTagHandler
 {
     private readonly AppDbContext _db;
-    public ViewTagHandler(AppDbContext db) => _db = db;
+    public GetTagHandler(AppDbContext db) => _db = db;
 
     public async Task<GetTagVm> Handle(int id, CancellationToken ct = default)
     {

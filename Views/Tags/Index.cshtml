@@ -29,8 +29,8 @@
                 <td>@r.Nome</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                    <a asp-action="Get" asp-route-id="@r.Id" class="btn btn-sm btn-outline-secondary me-1">View</a>
                     <button type="button" class="btn btn-sm btn-outline-danger" data-delete-tag="@r.Id">Delete</button>
-                    <!-- <a asp-action="Details" asp-route-id="@r.Id" class="btn btn-sm btn-outline-secondary ms-1">View</a> -->
                 </td>
             </tr>
         }

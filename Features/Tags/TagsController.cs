@@ -6,7 +6,6 @@ using Desafio_ICI_Samuel.Features.Tags.Edit;
 using Desafio_ICI_Samuel.Features.Tags.Get;
 using Desafio_ICI_Samuel.Features.Tags.List;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Controllers;
 
@@ -15,12 +14,30 @@ namespace Desafio_ICI_Samuel.Controllers;
 [AutoValidateAntiforgeryToken]
 public class TagsController : Controller
 {
+    private readonly ICreateTagHandler _createHandler;
+    private readonly IDeleteTagHandler _deleteHandler;
+    private readonly IEditTagHandler _editHandler;
+    private readonly IGetTagHandler _getHadndler;
+    private readonly IListTagsHandler _listHandler;
+    public TagsController(
+    IListTagsHandler listHandler,
+    ICreateTagHandler createHandler,
+    IDeleteTagHandler deleteHandler,
+    IEditTagHandler editHandler,
+    IGetTagHandler getHandler)
+    {
+        _listHandler = listHandler;
+        _createHandler = createHandler;
+        _deleteHandler = deleteHandler;
+        _editHandler = editHandler;
+        _getHadndler = getHandler;
+    }
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> Get(int id, [FromServices] ViewTagHandler handler)
+    public async Task<IActionResult> Get(int id)
     {
         try
         {
-            var vm = await handler.Handle(id);
+            var vm = await _getHadndler.Handle(id);
             return View("View", vm);
         }
         catch (KeyNotFoundException)
@@ -32,19 +49,19 @@ public class TagsController : Controller
     [HttpGet("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id, [FromServices] AppDbContext db)
     {
-        var t = await db.Tags.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        var tag = await _getHadndler.Handle(id);
 
-        if (t is null)
+        if (tag is null)
         {
             return NotFound();
         }
 
-        var vm = new EditTagForm { Id = t.Id, Nome = t.Nome };
+        var vm = new EditTagForm { Id = tag.Id, Name = tag.Name };
         return View("Edit", vm);
     }
 
     [HttpPost("{id:int}/edit")]
-    public async Task<IActionResult> Edit( int id, EditTagForm vm,  [FromServices] EditTagHandler handler)
+    public async Task<IActionResult> Edit( int id, EditTagForm vm)
     {
         if (id != vm.Id)
         {
@@ -58,13 +75,13 @@ public class TagsController : Controller
 
         try
         {
-            await handler.Handle(vm);
+            await _editHandler.Handle(vm);
             TempData["msg"] = "Tag atualizada com sucesso!";
             return RedirectToAction(nameof(Index));
         }
         catch (InvalidOperationException dup)
         {
-            ModelState.AddModelError(nameof(vm.Nome), dup.Message);
+            ModelState.AddModelError(nameof(vm.Name), dup.Message);
             return View("Edit", vm);
         }
         catch (KeyNotFoundException)
@@ -74,9 +91,9 @@ public class TagsController : Controller
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Index( [FromServices] ListTagsHandler handler, [FromQuery] int page = 1, [FromQuery] string? search = null)
+    public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] string? search = null)
     {
-        var vm = await handler.Handle(new ListTagsQuery(page, 5, search));
+        var vm = await _listHandler.Handle(new ListTagsQuery(page, 5, search));
         return View("Index", vm);
     }
 
@@ -85,7 +102,7 @@ public class TagsController : Controller
         => View("Create", new CreateTagForm());
 
     [HttpPost("create")]
-    public async Task<IActionResult> Create( CreateTagForm vm, [FromServices] CreateTagHandler handler)
+    public async Task<IActionResult> Create( CreateTagForm vm)
     {
         if (!ModelState.IsValid)
         {
@@ -94,7 +111,7 @@ public class TagsController : Controller
             
         try
         {
-            await handler.Handle(vm);
+            await _createHandler.Handle(vm);
             TempData["msg"] = "Tag criada com sucesso!";
             return RedirectToAction(nameof(Create));
         }
@@ -106,13 +123,13 @@ public class TagsController : Controller
     }
 
     [HttpDelete("{id:int}/delete")]
-    public async Task<IActionResult> Delete( int id, DeleteTagCommand vm, [FromServices] DeleteTagHandler handler)
+    public async Task<IActionResult> Delete( int id, DeleteTagCommand vm)
     {
         if (id != vm.Id) return BadRequest();
 
         try
         {
-            await handler.Handle(id);
+            await _deleteHandler.Handle(id);
             return NoContent();
         }
         catch (InvalidOperationException ex)
@@ -125,4 +142,5 @@ public class TagsController : Controller
             return NotFound();
         }
     }
+
 }

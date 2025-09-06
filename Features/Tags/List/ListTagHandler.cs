@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.List;
 
-public sealed class ListTagsHandler
+public sealed class ListTagsHandler : IListTagsHandler
 {
     private readonly AppDbContext _db;
     public ListTagsHandler(AppDbContext db) => _db = db;

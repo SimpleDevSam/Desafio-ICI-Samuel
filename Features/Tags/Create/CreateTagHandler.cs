@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.Create;
 
-public sealed class CreateTagHandler
+public sealed class CreateTagHandler : ICreateTagHandler
 {
     private readonly AppDbContext _db;
     public CreateTagHandler(AppDbContext db) => _db = db;

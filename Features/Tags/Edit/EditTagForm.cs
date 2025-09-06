@@ -8,5 +8,5 @@ public sealed class EditTagForm
 
     [Required(ErrorMessage = "Informe o nome da tag")]
     [StringLength(100, ErrorMessage = "Máximo de 100 caracteres")]
-    public string Nome { get; set; } = "";
+    public string Name { get; set; } = "";
 }

@@ -7,7 +7,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "App_Data", "ici.db");
+        var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Data/DB", "ici.db");
         Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
 
         var opts = new DbContextOptionsBuilder<AppDbContext>()

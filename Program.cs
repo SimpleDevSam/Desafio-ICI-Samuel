@@ -1,5 +1,8 @@
 using Desafio_ICI_Samuel.Data;
 using Desafio_ICI_Samuel.Features;
+using Desafio_ICI_Samuel.Features.News.Delete;
+using Desafio_ICI_Samuel.Features.News.Edit;
+using Desafio_ICI_Samuel.Features.News.Form;
 using Desafio_ICI_Samuel.Features.Tags.Create;
 using Desafio_ICI_Samuel.Features.Tags.Delete;
 using Desafio_ICI_Samuel.Features.Tags.Edit;
@@ -12,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var dbPath = Path.Combine(builder.Environment.ContentRootPath, "App_Data", "ici.db");
+var dbPath = Path.Combine(builder.Environment.ContentRootPath, "Data/DB", "ici.db");
 Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
 builder.Services.AddDbContext<AppDbContext>(opt =>opt.UseSqlite($"Data Source={dbPath};Cache=Shared"));
 
@@ -21,9 +24,13 @@ builder.Services.AddScoped<ListTagsHandler>();
 builder.Services.AddScoped<EditTagHandler>();
 builder.Services.AddScoped<DeleteTagHandler>();
 builder.Services.AddScoped<ViewTagHandler>();
-builder.Services.AddScoped<CreateNewsHandler>();
-builder.Services.AddScoped<EditNewsHandler>();
-    
+builder.Services.AddScoped<ICreateNewsHandler, CreateNewsHandler>();
+builder.Services.AddScoped<IEditNewsHandler, EditNewsHandler>();
+builder.Services.AddScoped<IDeleteNewsHandler, DeleteNewsHandler>();
+builder.Services.AddScoped<IFormBuilder, FormBuilder>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

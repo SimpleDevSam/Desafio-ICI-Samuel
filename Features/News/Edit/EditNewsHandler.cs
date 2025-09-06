@@ -1,10 +1,11 @@
 ﻿using Desafio_ICI_Samuel.Data;
 using Desafio_ICI_Samuel.Domain;
+using Desafio_ICI_Samuel.Features.News.Edit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features;
 
-public class EditNewsHandler
+public class EditNewsHandler : IEditNewsHandler
 {
     private readonly AppDbContext _db;
     public EditNewsHandler(AppDbContext db) => _db = db;

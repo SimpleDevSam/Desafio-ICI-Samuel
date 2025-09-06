@@ -36,16 +36,14 @@ public static class DependencyInjection
 
     public static IServiceCollection AddPersistence(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        var env = builder.Environment;
 
-        var config = builder.Configuration;
-
-        var dbDir = Path.Combine(env.ContentRootPath, config["DbFolder:Path1"], config["DbFolder:Path2"]);
-        Directory.CreateDirectory(dbDir);
-        var dbPath = Path.Combine(dbDir, config["DbFolder:FileName"]);
+        var conectionString = new Desafio_ICI_Samuel.Data.SqlitePath(
+            builder.Configuration,
+            builder.Environment.ContentRootPath
+        ).BuildConnectionString();
 
         services.AddDbContext<AppDbContext>(opt =>
-            opt.UseSqlite($"Data Source={dbPath};Cache=Shared"));
+            opt.UseSqlite(conectionString));
 
         return services;
     }

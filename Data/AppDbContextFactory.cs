@@ -7,11 +7,11 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Data/DB", "ici.db");
-        Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
+        var contentRoot = Directory.GetCurrentDirectory();
+        var conectionString = SqlitePath.FromAppSettings(contentRoot).BuildConnectionString();
 
         var opts = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlite($"Data Source={dbPath};Cache=Shared")
+            .UseSqlite(conectionString)
             .Options;
 
         return new AppDbContext(opts);

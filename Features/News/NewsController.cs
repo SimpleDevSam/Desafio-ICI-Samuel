@@ -3,9 +3,12 @@ using Desafio_ICI_Samuel.Features.News.Delete;
 using Desafio_ICI_Samuel.Features.News.Edit;
 using Desafio_ICI_Samuel.Features.News.Form;
 using Desafio_ICI_Samuel.Features.News.Get;
+using Desafio_ICI_Samuel.Features.News.ListNews;
+using Desafio_ICI_Samuel.Features.Tags;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace Desafio_ICI_Samuel.Features;
 
@@ -20,13 +23,15 @@ public class NewsController : Controller
     private readonly IDeleteNewsHandler _deleteHandler;
     private readonly IFormBuilder _formBuilder;
     private readonly IGetNewsHandler _getHandler;
+    private readonly IListNewsHandler _listHandler;
     public NewsController(
         AppDbContext db,
         ICreateNewsHandler createHandler,
         IEditNewsHandler editHandler,
         IDeleteNewsHandler deleteHandler,
         IFormBuilder formBuilder,
-        IGetNewsHandler getHandler)
+        IGetNewsHandler getHandler,
+        IListNewsHandler listHandler)
     {
         _db = db;
         _createHandler = createHandler;
@@ -34,20 +39,15 @@ public class NewsController : Controller
         _deleteHandler = deleteHandler;
         _formBuilder = formBuilder;
         _getHandler = getHandler;
+        _listHandler = listHandler;
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] string? search = null)
     {
-        var rows = await _db.News
-            .AsNoTracking()
-            .OrderByDescending(n => n.Id)
-            .Select(n => new Row(n.Id, n.Title, n.UserId))
-            .ToListAsync();
-
-        return View("Index", rows);
+        return View("Index", await _listHandler.Handle(new ListNewsQuery(page, 5, search)));
     }
-    public record Row(int Id, string Title, int UserId);
+    
 
     [HttpGet("create")]
     public async Task<IActionResult> Create()

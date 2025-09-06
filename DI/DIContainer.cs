@@ -38,9 +38,11 @@ public static class DependencyInjection
     {
         var env = builder.Environment;
 
-        var dbDir = Path.Combine(env.ContentRootPath, "Data", "DB");
+        var config = builder.Configuration;
+
+        var dbDir = Path.Combine(env.ContentRootPath, config["DbFolder:Path1"], config["DbFolder:Path2"]);
         Directory.CreateDirectory(dbDir);
-        var dbPath = Path.Combine(dbDir, "ici.db");
+        var dbPath = Path.Combine(dbDir, config["DbFolder:FileName"]);
 
         services.AddDbContext<AppDbContext>(opt =>
             opt.UseSqlite($"Data Source={dbPath};Cache=Shared"));

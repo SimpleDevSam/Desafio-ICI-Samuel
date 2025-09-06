@@ -1,12 +1,11 @@
-﻿@model IReadOnlyList<Desafio_ICI_Samuel.Features.News.ListNews.NewsRow>
+﻿@model Desafio_ICI_Samuel.Features.News.ListNews.ListNewsVm
 
 <h1>News</h1>
 
 @if (TempData["msg"] is string ok)
 {
-     <div class="alert alert-success" role="alert">@ok</div>
+    <div class="alert alert-success" role="alert">@ok</div>
 }
-
 @if (TempData["err"] is string err)
 {
     <div class="alert alert-danger" role="alert">@err</div>
@@ -19,10 +18,14 @@
 <div class="table-responsive">
     <table class="table table-sm align-middle">
         <thead>
-            <tr><th style="width:90px">ID</th><th>Title</th><th style="width:260px">Actions</th></tr>
+            <tr>
+                <th style="width:90px">ID</th>
+                <th>Title</th>
+                <th style="width:260px">Actions</th>
+            </tr>
         </thead>
         <tbody>
-            @foreach (var r in Model)
+            @foreach (var r in Model.Rows)
             {
                 <tr id="row-@r.Id">
                     <td>@r.Id</td>
@@ -30,6 +33,7 @@
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary me-1" data-edit-news="@r.Id">Edit</button>
                         <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
                     </td>
@@ -40,6 +44,77 @@
 </div>
 
 <div id="newsFormHost" class="mt-3"></div>
+
+@{
+    var current = Model.Page;
+    var totalPages = Model.TotalPages;
+    var total = Model.Total;
+
+    int window = 5;
+    int start = Math.Max(1, current - window);
+    int end = Math.Min(totalPages, current + window);
+
+    string PageUrl(int p) => Url.Action("Index", "News", new { page = p })!;
+}
+
+@if (total > 0 && totalPages > 1)
+{
+    <div class="d-flex justify-content-between align-items-center mt-2">
+        <small class="text-muted">Page @current of @totalPages — @total total</small>
+
+        <nav aria-label="News pagination">
+            <ul class="pagination mb-0">
+                @if (current <= 1)
+                {
+                    <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="@PageUrl(current - 1)">Prev</a></li>
+                }
+
+                @if (start > 1)
+                {
+                    <li class="page-item"><a class="page-link" href="@PageUrl(1)">1</a></li>
+                    @if (start > 2)
+                    {
+                        <li class="page-item disabled"><span class="page-link">…</span></li>
+                    }
+                }
+
+                @for (var p = start; p <= end; p++)
+                {
+                    if (p == current)
+                    {
+                        <li class="page-item active"><span class="page-link">@p</span></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="@PageUrl(p)">@p</a></li>
+                    }
+                }
+
+                @if (end < totalPages)
+                {
+                    if (end < totalPages - 1)
+                    {
+                        <li class="page-item disabled"><span class="page-link">…</span></li>
+                    }
+                    <li class="page-item"><a class="page-link" href="@PageUrl(totalPages)">@totalPages</a></li>
+                }
+
+                @if (current >= totalPages)
+                {
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="@PageUrl(current + 1)">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+}
 
 @section Scripts {
     <script src="~/features/news/index.js" asp-append-version="true"></script>

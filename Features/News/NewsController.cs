@@ -43,12 +43,11 @@ public class NewsController : Controller
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] string? search = null)
+    public async Task<IActionResult> Index([FromQuery] int page = 1)
     {
-        return View("Index", await _listHandler.Handle(new ListNewsQuery(page, 5, search)));
+        return View("Index", await _listHandler.Handle(new ListNewsQuery(page, 5)));
     }
     
-
     [HttpGet("create")]
     public async Task<IActionResult> Create()
         => PartialView("_CreateEdit", await _formBuilder.Build());

@@ -12,13 +12,6 @@ public sealed class ListTagsHandler : IListTagsHandler
     {
         var baseQ = _db.Tags.AsNoTracking();
 
-        if (!string.IsNullOrWhiteSpace(q.Search))
-        {
-            var s = q.Search.Trim();
-            baseQ = baseQ.Where(t =>
-                EF.Functions.Like(EF.Functions.Collate(t.Nome, "NOCASE"), $"%{s}%"));
-        }
-
         var total = await baseQ.CountAsync(ct);
 
         var rows = await baseQ

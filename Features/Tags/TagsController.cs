@@ -91,9 +91,9 @@ public class TagsController : Controller
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] string? search = null)
+    public async Task<IActionResult> Index([FromQuery] int page = 1)
     {
-        var vm = await _listHandler.Handle(new ListTagsQuery(page, 5, search));
+        var vm = await _listHandler.Handle(new ListTagsQuery(page, 5));
         return View("Index", vm);
     }
 

@@ -122,25 +122,25 @@ public class TagsController : Controller
         }
     }
 
-    [HttpDelete("{id:int}/delete")]
-    public async Task<IActionResult> Delete( int id, DeleteTagCommand vm)
+    [HttpPost("{id:int}/delete")]
+    public async Task<IActionResult> Delete(int id, DeleteTagCommand vm)
     {
-        if (id != vm.Id) return BadRequest();
+        if (id != vm.Id)
+        {
+            TempData["msg"] = "Id é requerido.";
+        }
 
         try
         {
             await _deleteHandler.Handle(id);
-            return NoContent();
+            TempData["msg"] = "Tag deleted successfully";
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
-            return View("Delete", vm);
+            TempData["err"] = ex.Message;
         }
-        catch (KeyNotFoundException)
-        {
-            return NotFound();
-        }
+
+        return RedirectToAction(nameof(Index));
     }
 
 }

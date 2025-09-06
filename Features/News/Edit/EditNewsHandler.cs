@@ -1,14 +1,13 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Desafio_ICI_Samuel.Domain;
-using Desafio_ICI_Samuel.Features.News.Edit;
 using Microsoft.EntityFrameworkCore;
 
-namespace Desafio_ICI_Samuel.Features;
+namespace Desafio_ICI_Samuel.Features.News.Edit;
 
 public class EditNewsHandler : IEditNewsHandler
 {
-    private readonly AppDbContext _db;
-    public EditNewsHandler(AppDbContext db) => _db = db;
+    private readonly IAppDbContext _db;
+    public EditNewsHandler(IAppDbContext db) => _db = db;
 
     public async Task Handle(NewsForm vm, CancellationToken ct = default)
     {

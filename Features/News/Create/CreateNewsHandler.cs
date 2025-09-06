@@ -1,12 +1,12 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Desafio_ICI_Samuel.Domain;
 
-namespace Desafio_ICI_Samuel.Features;
+namespace Desafio_ICI_Samuel.Features.News.Create;
 
 public class CreateNewsHandler : ICreateNewsHandler
 {
-    private readonly AppDbContext _db;
-    public CreateNewsHandler(AppDbContext db) => _db = db;
+    private readonly IAppDbContext _db;
+    public CreateNewsHandler(IAppDbContext db) => _db = db;
 
     public async Task<int> Handle(NewsForm vm, CancellationToken ct = default)
     {

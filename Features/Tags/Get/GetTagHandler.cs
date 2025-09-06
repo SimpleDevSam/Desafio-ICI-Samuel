@@ -1,11 +1,11 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.Get;
 public class GetTagHandler : IGetTagHandler
 {
-    private readonly AppDbContext _db;
-    public GetTagHandler(AppDbContext db) => _db = db;
+    private readonly IAppDbContext _db;
+    public GetTagHandler(IAppDbContext db) => _db = db;
 
     public async Task<GetTagVm> Handle(int id, CancellationToken ct = default)
     {

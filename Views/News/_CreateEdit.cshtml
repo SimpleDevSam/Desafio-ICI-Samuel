@@ -7,19 +7,19 @@
     @Html.AntiForgeryToken()
 
     <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
+        <label asp-for="Title" class="form-label">Título</label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Text" class="form-label"></label>
+        <label asp-for="Text" class="form-label">Texto</label>
         <textarea asp-for="Text" class="form-control" rows="8"></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="UserId" class="form-label">Author</label>
+        <label asp-for="UserId" class="form-label">Autor</label>
         <select asp-for="UserId" asp-items="Model.AvailableUsers" class="form-select"></select>
         <span asp-validation-for="UserId" class="text-danger"></span>
     </div>
@@ -31,8 +31,8 @@
     </div>
 
     <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-outline-secondary" data-close-news-form>Cancel</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-outline-secondary" data-close-news-form>Cancelar</button>
     </div>
 
     <div class="text-danger mt-2" data-validation-summary></div>

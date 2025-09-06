@@ -1,12 +1,12 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.List;
 
 public sealed class ListTagsHandler : IListTagsHandler
 {
-    private readonly AppDbContext _db;
-    public ListTagsHandler(AppDbContext db) => _db = db;
+    private readonly IAppDbContext _db;
+    public ListTagsHandler(IAppDbContext db) => _db = db;
 
     public async Task<ListTagsVm> Handle(ListTagsQuery q, CancellationToken ct = default)
     {

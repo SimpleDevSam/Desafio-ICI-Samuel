@@ -1,12 +1,12 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.News.Get;
 
 public class GetNewsHandler : IGetNewsHandler
 {
-    private readonly AppDbContext _db;
-    public GetNewsHandler (AppDbContext db)
+    private readonly IAppDbContext _db;
+    public GetNewsHandler (IAppDbContext db)
     {
         _db = db;
     }
@@ -16,7 +16,7 @@ public class GetNewsHandler : IGetNewsHandler
         var news = await _db.News
             .Include(x => x.NewsTags)
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, ct);
 
         if (news is null)
         {

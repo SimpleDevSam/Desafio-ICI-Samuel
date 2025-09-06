@@ -1,23 +1,19 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Desafio_ICI_Samuel.Features.News.Delete;
 using Desafio_ICI_Samuel.Features.News.Edit;
 using Desafio_ICI_Samuel.Features.News.Form;
 using Desafio_ICI_Samuel.Features.News.Get;
 using Desafio_ICI_Samuel.Features.News.ListNews;
-using Desafio_ICI_Samuel.Features.Tags;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
-namespace Desafio_ICI_Samuel.Features;
+namespace Desafio_ICI_Samuel.Features.News;
 
 
 [Route("news")]
 [AutoValidateAntiforgeryToken]
 public class NewsController : Controller
 {
-    private readonly AppDbContext _db;
+    private readonly IAppDbContext _db;
     private readonly ICreateNewsHandler _createHandler;
     private readonly IEditNewsHandler _editHandler;
     private readonly IDeleteNewsHandler _deleteHandler;
@@ -25,7 +21,7 @@ public class NewsController : Controller
     private readonly IGetNewsHandler _getHandler;
     private readonly IListNewsHandler _listHandler;
     public NewsController(
-        AppDbContext db,
+        IAppDbContext db,
         ICreateNewsHandler createHandler,
         IEditNewsHandler editHandler,
         IDeleteNewsHandler deleteHandler,
@@ -113,7 +109,7 @@ public class NewsController : Controller
         try
         {
           await _deleteHandler.Handle(id);
-          TempData["msg"] = "News deleted successfully.";
+          TempData["msg"] = "Notícia deletada com sucesso.";
         }
         catch (Exception ex)
         {

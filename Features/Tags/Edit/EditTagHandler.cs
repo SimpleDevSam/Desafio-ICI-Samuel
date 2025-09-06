@@ -1,12 +1,12 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.Tags.Edit;
 
 public sealed class EditTagHandler : IEditTagHandler
 {
-    private readonly AppDbContext _db;
-    public EditTagHandler(AppDbContext db) => _db = db;
+    private readonly IAppDbContext _db;
+    public EditTagHandler(IAppDbContext db) => _db = db;
 
     public async Task Handle(EditTagForm vm, CancellationToken ct = default)
     {

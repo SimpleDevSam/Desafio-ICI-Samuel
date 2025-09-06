@@ -1,13 +1,11 @@
-﻿using Desafio_ICI_Samuel.Data;
-using Desafio_ICI_Samuel.Features.Tags;
-using Desafio_ICI_Samuel.Features.Tags.Create;
+﻿using Desafio_ICI_Samuel.Features.Tags.Create;
 using Desafio_ICI_Samuel.Features.Tags.Delete;
 using Desafio_ICI_Samuel.Features.Tags.Edit;
 using Desafio_ICI_Samuel.Features.Tags.Get;
 using Desafio_ICI_Samuel.Features.Tags.List;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Desafio_ICI_Samuel.Controllers;
+namespace Desafio_ICI_Samuel.Features.Tags;
 
 [Route("tags")]
 
@@ -47,7 +45,7 @@ public class TagsController : Controller
     }
 
     [HttpGet("{id:int}/edit")]
-    public async Task<IActionResult> Edit(int id, [FromServices] AppDbContext db)
+    public async Task<IActionResult> Edit(int id)
     {
         var tag = await _getHadndler.Handle(id);
 
@@ -94,7 +92,7 @@ public class TagsController : Controller
     public async Task<IActionResult> Index([FromQuery] int page = 1)
     {
         var vm = await _listHandler.Handle(new ListTagsQuery(page, 5));
-        return View("Index", vm);
+        return View("Index", vm);    
     }
 
     [HttpGet("create")]
@@ -133,7 +131,7 @@ public class TagsController : Controller
         try
         {
             await _deleteHandler.Handle(id);
-            TempData["msg"] = "Tag deleted successfully";
+            TempData["msg"] = "Tag deletada com sucesso.";
         }
         catch (Exception ex)
         {

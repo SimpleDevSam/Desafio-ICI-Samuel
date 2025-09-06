@@ -1,4 +1,6 @@
-﻿using Desafio_ICI_Samuel.Features.News.Delete;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
+using Desafio_ICI_Samuel.Features.News.Create;
+using Desafio_ICI_Samuel.Features.News.Delete;
 using Desafio_ICI_Samuel.Features.News.Edit;
 using Desafio_ICI_Samuel.Features.News.Form;
 using Desafio_ICI_Samuel.Features.News.Get;
@@ -8,9 +10,9 @@ using Desafio_ICI_Samuel.Features.Tags.Delete;
 using Desafio_ICI_Samuel.Features.Tags.Edit;
 using Desafio_ICI_Samuel.Features.Tags.Get;
 using Desafio_ICI_Samuel.Features.Tags.List;
-using Desafio_ICI_Samuel.Features;
 using Desafio_ICI_Samuel.Data;
 using Microsoft.EntityFrameworkCore;
+using Desafio_ICI_Samuel.Features;
 
 namespace Desafio_ICI;
 
@@ -44,6 +46,8 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(opt =>
             opt.UseSqlite(conectionString));
+
+        services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 
         return services;
     }

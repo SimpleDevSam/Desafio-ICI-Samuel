@@ -1,4 +1,4 @@
-﻿using Desafio_ICI_Samuel.Data;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,9 +6,9 @@ namespace Desafio_ICI_Samuel.Features.News.Form;
 
 public class FormBuilder : IFormBuilder
 {
-    private readonly AppDbContext _db;
+    private readonly IAppDbContext _db;
 
-    public FormBuilder (AppDbContext db)
+    public FormBuilder (IAppDbContext db)
     {
         _db = db;
     }

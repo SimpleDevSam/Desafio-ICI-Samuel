@@ -12,7 +12,7 @@
 }
 
 <div class="mb-3">
-    <button type="button" class="btn btn-primary" id="btnCreateNews">New News</button>
+    <button type="button" class="btn btn-primary" id="btnCreateNews">Criar Notícia</button>
 </div>
 
 <div class="table-responsive">
@@ -20,8 +20,8 @@
         <thead>
             <tr>
                 <th style="width:90px">ID</th>
-                <th>Title</th>
-                <th style="width:260px">Actions</th>
+                <th>Título</th>
+                <th style="width:260px">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -31,10 +31,10 @@
                     <td>@r.Id</td>
                     <td>@r.Title</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-edit-news="@r.Id">Edit</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-edit-news="@r.Id">Editar</button>
                         <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline">
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
                         </form>
                     </td>
                 </tr>
@@ -66,11 +66,11 @@
             <ul class="pagination mb-0">
                 @if (current <= 1)
                 {
-                    <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                    <li class="page-item disabled"><span class="page-link">Anterior</span></li>
                 }
                 else
                 {
-                    <li class="page-item"><a class="page-link" href="@PageUrl(current - 1)">Prev</a></li>
+                    <li class="page-item"><a class="page-link" href="@PageUrl(current - 1)">Próximo</a></li>
                 }
 
                 @if (start > 1)
@@ -109,7 +109,7 @@
                 }
                 else
                 {
-                    <li class="page-item"><a class="page-link" href="@PageUrl(current + 1)">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="@PageUrl(current + 1)">Próximo</a></li>
                 }
             </ul>
         </nav>

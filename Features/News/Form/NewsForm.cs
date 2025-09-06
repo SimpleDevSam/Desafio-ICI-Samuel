@@ -10,7 +10,7 @@ public class NewsForm
     [Required, StringLength(250)]
     public string Title { get; set; } = "";
 
-    [Required]
+    [Required(ErrorMessage = "O campo Texto é obrigatório.")]
     public string Text { get; set; } = "";
 
     [Required(ErrorMessage = "Selecione o autor")]

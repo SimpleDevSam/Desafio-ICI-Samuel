@@ -1,19 +1,18 @@
-﻿using Desafio_ICI_Samuel.Data;
-using Desafio_ICI_Samuel.Features.News.Edit;
+﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.News.Delete;
 
 public class DeleteNewsHandler : IDeleteNewsHandler
 {
-    private readonly AppDbContext _db;
-    public DeleteNewsHandler(AppDbContext db)
+    private readonly IAppDbContext _db;
+    public DeleteNewsHandler(IAppDbContext db)
     {
         _db = db;
     }
     public async Task Handle(int id, CancellationToken ct = default)
     {
-        var news = await _db.News.FirstOrDefaultAsync(x => x.Id == id);
+        var news = await _db.News.FirstOrDefaultAsync(x => x.Id == id, ct);
 
         if (news is null)
         {
@@ -21,6 +20,6 @@ public class DeleteNewsHandler : IDeleteNewsHandler
         }
 
         _db.News.Remove(news);
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(ct);
     }
 }

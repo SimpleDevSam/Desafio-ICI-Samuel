@@ -3,6 +3,7 @@ using Desafio_ICI_Samuel.Features;
 using Desafio_ICI_Samuel.Features.News.Delete;
 using Desafio_ICI_Samuel.Features.News.Edit;
 using Desafio_ICI_Samuel.Features.News.Form;
+using Desafio_ICI_Samuel.Features.News.Get;
 using Desafio_ICI_Samuel.Features.Tags.Create;
 using Desafio_ICI_Samuel.Features.Tags.Delete;
 using Desafio_ICI_Samuel.Features.Tags.Edit;
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IGetTagHandler,GetTagHandler>();
 builder.Services.AddScoped<ICreateNewsHandler, CreateNewsHandler>();
 builder.Services.AddScoped<IEditNewsHandler, EditNewsHandler>();
 builder.Services.AddScoped<IDeleteNewsHandler, DeleteNewsHandler>();
+builder.Services.AddScoped<IGetNewsHandler, GetNewsHandler>();
 builder.Services.AddScoped<IFormBuilder, FormBuilder>();
 
 

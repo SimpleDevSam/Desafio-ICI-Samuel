@@ -2,6 +2,7 @@
 using Desafio_ICI_Samuel.Features.News.Delete;
 using Desafio_ICI_Samuel.Features.News.Edit;
 using Desafio_ICI_Samuel.Features.News.Form;
+using Desafio_ICI_Samuel.Features.News.Get;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,21 @@ public class NewsController : Controller
     private readonly IEditNewsHandler _editHandler;
     private readonly IDeleteNewsHandler _deleteHandler;
     private readonly IFormBuilder _formBuilder;
-    public NewsController(AppDbContext db, ICreateNewsHandler createHandler, IEditNewsHandler editHandler, IDeleteNewsHandler deleteHandler, IFormBuilder formBuilder)
+    private readonly IGetNewsHandler _getHandler;
+    public NewsController(
+        AppDbContext db,
+        ICreateNewsHandler createHandler,
+        IEditNewsHandler editHandler,
+        IDeleteNewsHandler deleteHandler,
+        IFormBuilder formBuilder,
+        IGetNewsHandler getHandler)
     {
         _db = db;
         _createHandler = createHandler;
         _editHandler = editHandler;
         _deleteHandler = deleteHandler;
         _formBuilder = formBuilder;
+        _getHandler = getHandler;
     }
 
     [HttpGet("")]
@@ -63,22 +72,29 @@ public class NewsController : Controller
     [HttpGet("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id)
     {
-        var n = await _db.News
-            .Include(x => x.NewsTags)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+        var news = await _getHandler.Handle(id);
 
-        if (n is null) return NotFound();
+        if (news is null)
+        {
+            return NotFound();
+        }
 
-        var vm = await _formBuilder.Build(n);
+        var vm = await _formBuilder.Build(news);
         return PartialView("_CreateEdit", vm);
     }
 
     [HttpPost("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id, NewsForm vm)
     {
-        if (id != vm.Id) return BadRequest();
-        if (!ModelState.IsValid) return BadRequest(Errors());
+        if (id != vm.Id)
+        {
+            return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(Errors());
+        }
 
         try
         {

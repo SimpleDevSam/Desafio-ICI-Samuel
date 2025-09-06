@@ -14,14 +14,14 @@ public sealed class EditTagHandler : IEditTagHandler
 
         var novoNome = (vm.Name ?? "").Trim();
 
-        var duplicada = await _db.Tags.AnyAsync(t => t.Id != vm.Id && EF.Functions.Collate(t.Nome, "NOCASE") == novoNome, ct);
+        var duplicada = await _db.Tags.AnyAsync(t => t.Id != vm.Id && EF.Functions.Collate(t.Name, "NOCASE") == novoNome, ct);
 
         if (duplicada)
         {
             throw new InvalidOperationException("Já existe uma tag com esse nome.");
         }
            
-        tag.Nome = novoNome;
+        tag.Name = novoNome;
 
         await _db.SaveChangesAsync(ct);
     }

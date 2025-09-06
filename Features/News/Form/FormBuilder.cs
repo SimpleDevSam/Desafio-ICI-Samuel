@@ -22,8 +22,8 @@ public class FormBuilder : IFormBuilder
             .ToListAsync();
 
         var tags = await _db.Tags
-            .OrderBy(t => t.Nome)
-            .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Nome })
+            .OrderBy(t => t.Name)
+            .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
             .AsNoTracking()
             .ToListAsync();
 

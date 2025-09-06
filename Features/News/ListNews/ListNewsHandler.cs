@@ -1,5 +1,6 @@
 ﻿using Desafio_ICI_Samuel.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using static Desafio_ICI_Samuel.Features.Tags.List.ListTagsVm;
 
 namespace Desafio_ICI_Samuel.Features.News.ListNews;
 
@@ -17,10 +18,15 @@ public class ListNewsHandler : IListNewsHandler
 
         var rows = await _db.News
             .AsNoTracking()
+            .OrderByDescending(n => n.Id)
             .Skip((q.Page - 1) * q.PageSize)
             .Take(q.PageSize)
-            .OrderByDescending(n => n.Id)
-            .Select(n => new NewsRow(n.Id, n.Title, n.UserId))
+            .Select(n => new NewsRow(
+                n.Id,
+                n.Title,
+                n.User.Name,
+                string.Join(",", n.NewsTags.Select(nt => nt.Tag.Name))
+            ))
             .ToListAsync(ct);
 
         return new ListNewsVm(total, q.Page, q.PageSize, rows);

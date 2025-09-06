@@ -11,7 +11,7 @@ public class GetTagHandler : IGetTagHandler
     {
         var vm = await _db.Tags
             .Where(t => t.Id == id)
-            .Select(t => new GetTagVm { Id=t.Id, Name = t.Nome })
+            .Select(t => new GetTagVm (t.Id, t.Name))
             .AsNoTracking()
             .FirstOrDefaultAsync(ct);
 

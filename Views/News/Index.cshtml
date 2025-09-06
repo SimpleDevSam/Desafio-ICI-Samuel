@@ -21,6 +21,8 @@
             <tr>
                 <th style="width:90px">ID</th>
                 <th>Título</th>
+                <th>Tags</th>
+                <th>Autor</th>
                 <th style="width:260px">Ações</th>
             </tr>
         </thead>
@@ -30,6 +32,8 @@
                 <tr id="row-@r.Id">
                     <td>@r.Id</td>
                     <td>@r.Title</td>
+                    <td>@string.Join(", ", r.TagsName)</td>
+                    <td>@r.UserName</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary me-1" data-edit-news="@r.Id">Editar</button>
                         <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline">

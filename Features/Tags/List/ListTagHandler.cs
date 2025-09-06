@@ -18,7 +18,7 @@ public sealed class ListTagsHandler : IListTagsHandler
             .OrderBy(t => t.Id)
             .Skip((q.Page - 1) * q.PageSize)
             .Take(q.PageSize)
-            .Select(t => new ListTagsVm.Row(t.Id, t.Nome))
+            .Select(t => new ListTagsVm.Row(t.Id, t.Name))
             .AsNoTracking()
             .ToListAsync(ct);
 

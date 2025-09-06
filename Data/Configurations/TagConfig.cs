@@ -11,12 +11,12 @@ public class TagConfig : IEntityTypeConfiguration<Tag>
         b.ToTable("Tags");
         b.HasKey(t => t.Id);
 
-        b.Property(t => t.Nome)
+        b.Property(t => t.Name)
             .IsRequired()
             .HasMaxLength(100);
 
         //Deixar index ou não? Mostrar que possuo esse conhecimento porém não é aplicávle a um projeto de final de semana.
-        b.HasIndex(t => t.Nome)
+        b.HasIndex(t => t.Name)
             .IsUnique()
             .HasDatabaseName("IX_Tags_Nome");
     }

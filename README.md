@@ -23,7 +23,7 @@ A estrutura do projeto foi pensada para ser escalável, organizada e de fácil m
 
 *   **Entity Framework Core (Code-First)**: A persistência de dados é gerenciada com o EF Core, utilizando a abordagem "Code-First". As entidades de domínio (na pasta `Domain`) são a fonte da verdade, e as `Migrations` geram e atualizam o esquema do banco de dados a partir delas. Para simplificar a configuração, o projeto utiliza **SQLite** como banco de dados, optei por ele pela simplicidade, por ser um projeto demo.
 
-*   **Boas práticas que gosto que foram implementadas**:
+*   **Boas práticas/padrões que gosto que foram implementadas**:
  - Utilização de código assíncrono para não bloquear thread principal(I/O), favorecendo a escalabilidade;
  - Uso e abuso do early return pattern para evitar multiplas identações do código;
  - Utilização das features do MVC para passar valores de mensagem de sucesso/erro e serem renderizadas ao retornar a view;
@@ -33,7 +33,7 @@ A estrutura do projeto foi pensada para ser escalável, organizada e de fácil m
  - Isolamento de adição de serviços(DI e App Context) para deixar o Program.cs limpo e isolar as responsabilidades;
  - Utilização do AppSettings para determinar caminho utilizado pelo SqLite;
 
-*   **Boas práticas que acho interessante e que foram não implementadas(conscientemente)**:
+*   **Boas práticas/padrões  que acho interessante e que foram não implementadas(conscientemente)**:
 - Optei por não utilizar Repository Pattern, uma vez que o entity já nos fornece o padrão Unit Of Work e acreditei que ia ser uma camada apenas para abstrair uma complexidade desnecessária. Utilizando a interface do AppDbContext daria para mockar comportamentos para testar os devidos handlers.
  - Poderia seguir alguns pressupostos da Clean Arch para separar as pastas em Projetos, como por exemplo: Application, Infra/DataAccess, CrossCuting, e por aí vai. Não optei por essa abordagem por achar "over" para um projeto demo, e também acreditar que a estrutura implementada segue um bom padrão, deixando o código fácil de evoluir, entendível e organizado.
  - Também Poderia modelar um domínio mais rico, seguindo os conceitos de DDD, mas também achei desnecessário tendo em vista que a estrutura atual é simples e elegante o suficiente. Se eu fosse seguir esse caminho, iria adicionar um projeto Domain com os domínios/entidades e talvez usar NotificationPattern para validar as entidades(gosto da Flunt, que inclusive o criador é o Prof Andre Baltieri, com quem aprendi muito quando estava começando).

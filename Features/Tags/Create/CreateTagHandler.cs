@@ -14,14 +14,14 @@ public sealed class CreateTagHandler : ICreateTagHandler
     {
         var nome = (vm.Nome ?? string.Empty).Trim();
 
-        var exists = await _db.Tags.AnyAsync(t => EF.Functions.Collate(t.Nome, "NOCASE") == nome, ct);
+        var exists = await _db.Tags.AnyAsync(t => EF.Functions.Collate(t.Name, "NOCASE") == nome, ct);
 
         if (exists)
         {
             throw new InvalidOperationException("Já existe uma tag com esse nome.");
         }
             
-        var tag = new Tag { Nome = nome };
+        var tag = new Tag { Name = nome };
         _db.Tags.Add(tag);
 
         await _db.SaveChangesAsync(ct);

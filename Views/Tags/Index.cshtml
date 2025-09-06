@@ -38,37 +38,5 @@
 </table>
 
 @section Scripts {
-    <script>
-        (function(){
-          const token = document.querySelector('#__af input[name="__RequestVerificationToken"]').value;
-
-          document.querySelectorAll('[data-delete-tag]').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-              const id = btn.getAttribute('data-delete-tag');
-
-              if(!confirm('Deleter essa tag?'))
-              {
-                  return;
-              }
-
-              try {
-                const resp = await fetch(`/tags/${id}/delete`, {
-                  method: 'DELETE',
-                  headers: { 'RequestVerificationToken': token, 'Accept': 'text/plain' }
-                });
-
-                if (resp.status === 204) {
-                  // remove row or reload
-                  document.getElementById(`row-${id}`)?.remove();
-                } else {
-                  const text = await resp.text();
-                  alert(text || 'Failed to delete tag.');
-                }
-              } catch (err) {
-                alert('Network error while deleting tag.');
-              }
-            });
-          });
-        })();
-    </script>
+    <script src="~/features/tags/index.js" asp-append-version="true"></script>
 }

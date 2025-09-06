@@ -1,4 +1,5 @@
 using Desafio_ICI_Samuel.Data;
+using Desafio_ICI_Samuel.Features;
 using Desafio_ICI_Samuel.Features.Tags.Create;
 using Desafio_ICI_Samuel.Features.Tags.Delete;
 using Desafio_ICI_Samuel.Features.Tags.Edit;
@@ -20,7 +21,9 @@ builder.Services.AddScoped<ListTagsHandler>();
 builder.Services.AddScoped<EditTagHandler>();
 builder.Services.AddScoped<DeleteTagHandler>();
 builder.Services.AddScoped<ViewTagHandler>();
-
+builder.Services.AddScoped<CreateNewsHandler>();
+builder.Services.AddScoped<EditNewsHandler>();
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,10 +47,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.MapControllers();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapGet("/", () => Results.Redirect("/tags"));
 
-app.Run();
+await app.RunAsync();

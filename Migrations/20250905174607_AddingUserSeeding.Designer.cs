@@ -2,6 +2,7 @@
 using Desafio_ICI_Samuel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,52 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Desafio_ICI_Samuel.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250905174607_AddingUserSeeding")]
+    partial class AddingUserSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
-
-            modelBuilder.Entity("Desafio_ICI_Samuel.Domain.News", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("News", (string)null);
-                });
-
-            modelBuilder.Entity("Desafio_ICI_Samuel.Domain.NewsTag", b =>
-                {
-                    b.Property<int>("NewsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("NewsId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("NewsTags", (string)null);
-                });
 
             modelBuilder.Entity("Desafio_ICI_Samuel.Domain.User", b =>
                 {
@@ -123,41 +86,6 @@ namespace Desafio_ICI_Samuel.Migrations
                         .HasDatabaseName("IX_Tags_Nome");
 
                     b.ToTable("Tags", (string)null);
-                });
-
-            modelBuilder.Entity("Desafio_ICI_Samuel.Domain.News", b =>
-                {
-                    b.HasOne("Desafio_ICI_Samuel.Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Desafio_ICI_Samuel.Domain.NewsTag", b =>
-                {
-                    b.HasOne("Desafio_ICI_Samuel.Domain.News", "News")
-                        .WithMany("NewsTags")
-                        .HasForeignKey("NewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Desafio_ICI_Samuel.Models.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("News");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("Desafio_ICI_Samuel.Domain.News", b =>
-                {
-                    b.Navigation("NewsTags");
                 });
 #pragma warning restore 612, 618
         }

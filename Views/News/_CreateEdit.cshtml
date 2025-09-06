@@ -1,0 +1,43 @@
+﻿@model Desafio_ICI_Samuel.Features.NewsForm
+
+<form id="newsForm" method="post"
+      data-action="@((Model.Id.HasValue)
+         ? Url.Action("Edit", "News", new { id = Model.Id })
+         : Url.Action("Create", "News"))">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Text" class="form-label"></label>
+        <textarea asp-for="Text" class="form-control" rows="8"></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserId" class="form-label">Author</label>
+        <select asp-for="UserId" asp-items="Model.AvailableUsers" class="form-select"></select>
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tags</label>
+        <select asp-for="TagIds" asp-items="Model.AvailableTags" multiple class="form-select"></select>
+        <span asp-validation-for="TagIds" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-outline-secondary" data-close-news-form>Cancel</button>
+    </div>
+
+    <div class="text-danger mt-2" data-validation-summary></div>
+</form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+ }

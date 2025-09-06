@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Desafio_ICI_Samuel.Controllers;
 
 [Route("tags")]
+
 [AutoValidateAntiforgeryToken]
 public class TagsController : Controller
 {

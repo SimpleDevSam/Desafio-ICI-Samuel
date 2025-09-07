@@ -1,10 +1,13 @@
-﻿using Desafio_ICI_Samuel.Data.Interfaces;
+﻿using System.Runtime.CompilerServices;
+using Desafio_ICI_Samuel.Data.Interfaces;
 using Desafio_ICI_Samuel.Features.News.Delete;
 using Desafio_ICI_Samuel.Features.News.Edit;
 using Desafio_ICI_Samuel.Features.News.Form;
 using Desafio_ICI_Samuel.Features.News.Get;
 using Desafio_ICI_Samuel.Features.News.ListNews;
+using Desafio_ICI_Samuel.Features.News.View;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Desafio_ICI_Samuel.Features.News;
 
@@ -20,6 +23,7 @@ public class NewsController : Controller
     private readonly IFormBuilder _formBuilder;
     private readonly IGetNewsHandler _getHandler;
     private readonly IListNewsHandler _listHandler;
+    private readonly IViewNewsHandler _viewHandler;
     public NewsController(
         IAppDbContext db,
         ICreateNewsHandler createHandler,
@@ -27,7 +31,8 @@ public class NewsController : Controller
         IDeleteNewsHandler deleteHandler,
         IFormBuilder formBuilder,
         IGetNewsHandler getHandler,
-        IListNewsHandler listHandler)
+        IListNewsHandler listHandler,
+        IViewNewsHandler viewHandler)
     {
         _db = db;
         _createHandler = createHandler;
@@ -36,6 +41,7 @@ public class NewsController : Controller
         _formBuilder = formBuilder;
         _getHandler = getHandler;
         _listHandler = listHandler;
+        _viewHandler = viewHandler;
     }
 
     [HttpGet("")]
@@ -43,7 +49,20 @@ public class NewsController : Controller
     {
         return View("Index", await _listHandler.Handle(new ListNewsQuery(page, 5)));
     }
-    
+
+    [HttpGet("{id}/view")]
+    public async Task<IActionResult> View(int id)
+    {
+        var news = await _viewHandler.Handle(id);
+
+        if (news == null)
+        {
+            return NotFound();
+        }
+           
+        return PartialView("_View", news);
+    }
+
     [HttpGet("create")]
     public async Task<IActionResult> Create()
         => PartialView("_CreateEdit", await _formBuilder.Build());

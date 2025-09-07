@@ -25,7 +25,8 @@ public class ListNewsHandler : IListNewsHandler
                 n.Id,
                 n.Title,
                 n.User.Name,
-                string.Join(",", n.NewsTags.Select(nt => nt.Tag.Name))
+                string.Join(",", n.NewsTags.Select(nt => nt.Tag.Name)),
+                n.Text
             ))
             .ToListAsync(ct);
 

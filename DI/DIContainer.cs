@@ -13,6 +13,7 @@ using Desafio_ICI_Samuel.Features.Tags.List;
 using Desafio_ICI_Samuel.Data;
 using Microsoft.EntityFrameworkCore;
 using Desafio_ICI_Samuel.Features;
+using Desafio_ICI_Samuel.Features.News.View;
 
 namespace Desafio_ICI;
 
@@ -29,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<ICreateNewsHandler, CreateNewsHandler>();
         services.AddScoped<IEditNewsHandler, EditNewsHandler>();
         services.AddScoped<IDeleteNewsHandler, DeleteNewsHandler>();
+        services.AddScoped<IViewNewsHandler, ViewNewsHandler>();
         services.AddScoped<IGetNewsHandler, GetNewsHandler>();
         services.AddScoped<IListNewsHandler, ListNewsHandler>();
         services.AddScoped<IFormBuilder, FormBuilder>();

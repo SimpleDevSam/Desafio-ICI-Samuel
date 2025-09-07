@@ -66,7 +66,20 @@
                 wireForm(form);
             }
         });
-  }
+    }
+
+    document.querySelectorAll('[data-view-news]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-view-news');
+            const resp = await fetch(`/news/${id}/view`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            const html = await resp.text();
+            host.innerHTML = html;
+            const viewElement = host.querySelector('.card');
+            if (viewElement) {
+                wireView(viewElement);
+            }
+        });
+    });
 
   document.querySelectorAll('[data-edit-news]').forEach(btn => {
         btn.addEventListener('click', async () => {

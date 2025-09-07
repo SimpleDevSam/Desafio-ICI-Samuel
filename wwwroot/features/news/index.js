@@ -1,29 +1,37 @@
-﻿
-(function () {
-  const host = document.getElementById('newsFormHost');
+﻿(function () {
+    const host = document.getElementById('newsFormHost');
 
     function renderErrors(form, payload) {
-    const summary = form.querySelector('[data-validation-summary]');
-    if (summary) {
-        let messages = [];
-    if (payload && payload.errors) {
-        messages = Object.values(payload.errors).flat();
-      } else if (payload && payload.message) {
-        messages = [payload.message];
-      }
-    if (messages.length === 0) {
-        messages = ['Failed to save.'];
-      }
-      summary.innerHTML = messages.map(m => `<div>${m}</div>`).join('');
+        const summary = form.querySelector('[data-validation-summary]');
+        if (summary) {
+            let messages = [];
+            if (payload && payload.errors) {
+                messages = Object.values(payload.errors).flat();
+            } else if (payload && payload.message) {
+                messages = [payload.message];
+            }
+            if (messages.length === 0) {
+                messages = ['Failed to save.'];
+            }
+            summary.innerHTML = messages.map(m => `<div>${m}</div>`).join('');
+        }
     }
-  }
+
+    function wireView(viewElement) {
+        const close = viewElement.querySelector('[data-close-news-form]');
+        if (close) {
+            close.addEventListener('click', () => {
+                host.replaceChildren();
+            });
+        }
+    } 
 
     function wireForm(form) {
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const action = form.getAttribute('data-action') || form.action;
-            const body = new URLSearchParams(new FormData(form)); // includes antiforgery
+            const body = new URLSearchParams(new FormData(form));
             const resp = await fetch(action, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json' },
@@ -47,13 +55,13 @@
             }
         });
 
-    const cancel = form.querySelector('[data-close-news-form]');
-    if (cancel) {
-        cancel.addEventListener('click', () => {
-            host.replaceChildren();
-        });
+        const cancel = form.querySelector('[data-close-news-form]');
+        if (cancel) {
+            cancel.addEventListener('click', () => {
+                host.replaceChildren();
+            });
+        }
     }
-  }
 
     const createBtn = document.getElementById('btnCreateNews');
     if (createBtn) {
@@ -81,7 +89,7 @@
         });
     });
 
-  document.querySelectorAll('[data-edit-news]').forEach(btn => {
+    document.querySelectorAll('[data-edit-news]').forEach(btn => {
         btn.addEventListener('click', async () => {
             const id = btn.getAttribute('data-edit-news');
             const resp = await fetch(`/news/${id}/edit`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
@@ -92,5 +100,5 @@
                 wireForm(form);
             }
         });
-  });
+    });
 })();

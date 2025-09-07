@@ -1,6 +1,6 @@
 ﻿@model Desafio_ICI_Samuel.Features.News.ListNews.ListNewsVm
 
-<h1>News</h1>
+<h1>Notícias</h1>
 
 @if (TempData["msg"] is string ok)
 {
@@ -23,7 +23,8 @@
                 <th>Título</th>
                 <th>Tags</th>
                 <th>Autor</th>
-                <th style="width:260px">Ações</th>
+                <th style="width:90px">Texto</th>
+                <th class="text-nowrap"  style="width:260px">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +35,9 @@
                     <td>@r.Title</td>
                     <td>@string.Join(", ", r.TagsName)</td>
                     <td>@r.UserName</td>
+                    <td style="overflow-y: scroll; overflow-x: hidden; max-height: 100px; white-space: normal; word-break: break-word;"><div style="min-width:700px; max-height:200px">@r.Text</div></td>
                     <td>
+                        <button type="button" class="btn btn-sm btn-outline-info me-1" data-view-news="@r.Id" >Ver</button>
                         <button type="button" class="btn btn-sm btn-outline-primary me-1" data-edit-news="@r.Id">Editar</button>
                         <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline">
                             @Html.AntiForgeryToken()

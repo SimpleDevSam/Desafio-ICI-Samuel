@@ -11,7 +11,7 @@
                 messages = [payload.message];
             }
             if (messages.length === 0) {
-                messages = ['Failed to save.'];
+                messages = ['Falha ao salvar notícia.'];
             }
             summary.innerHTML = messages.map(m => `<div>${m}</div>`).join('');
         }
@@ -50,7 +50,7 @@
                     const errors = await resp.json();
                     renderErrors(form, errors);
                 } catch {
-                    alert('Failed to save.');
+                    alert('Falha ao salvar notícia.');
                 }
             }
         });

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desafio-ICI-Samuel", "Desafio-ICI-Samuel.csproj", "{695BA4E5-0B58-4CF2-8F4B-CDC2FA008191}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desafio-ICI-Samuel.Tests", "Desafio-ICI-Samuel.Tests\Desafio-ICI-Samuel.Tests.csproj", "{90045B68-C6AB-4C33-A479-F0C6F42142F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{695BA4E5-0B58-4CF2-8F4B-CDC2FA008191}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{695BA4E5-0B58-4CF2-8F4B-CDC2FA008191}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{695BA4E5-0B58-4CF2-8F4B-CDC2FA008191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90045B68-C6AB-4C33-A479-F0C6F42142F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90045B68-C6AB-4C33-A479-F0C6F42142F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90045B68-C6AB-4C33-A479-F0C6F42142F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90045B68-C6AB-4C33-A479-F0C6F42142F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

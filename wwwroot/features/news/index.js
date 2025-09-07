@@ -5,8 +5,8 @@
         const summary = form.querySelector('[data-validation-summary]');
         if (summary) {
             let messages = [];
-            if (payload && payload.errors) {
-                messages = Object.values(payload.errors).flat();
+            if (payload) {
+                messages = Object.values(payload).flat();
             } else if (payload && payload.message) {
                 messages = [payload.message];
             }

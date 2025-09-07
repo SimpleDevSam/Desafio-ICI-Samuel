@@ -12,16 +12,16 @@ public sealed class CreateTagHandler : ICreateTagHandler
 
     public async Task<int> Handle(CreateTagForm vm, CancellationToken ct = default)
     {
-        var nome = (vm.Nome ?? string.Empty).Trim();
+        var name = (vm.Nome ?? string.Empty).Trim();
 
-        var exists = await _db.Tags.AnyAsync(t => EF.Functions.Collate(t.Name, "NOCASE") == nome, ct);
+        var exists = await _db.Tags.AnyAsync(t=> t.Name.Equals(name, StringComparison.OrdinalIgnoreCase), ct);
 
         if (exists)
         {
             throw new InvalidOperationException("Já existe uma tag com esse nome.");
         }
             
-        var tag = new Tag { Name = nome };
+        var tag = new Tag { Name = name };
         _db.Tags.Add(tag);
 
         await _db.SaveChangesAsync(ct);

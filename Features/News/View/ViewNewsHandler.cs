@@ -23,7 +23,7 @@ public class ViewNewsHandler : IViewNewsHandler
                 string.Join(",", n.NewsTags.Select(nt => nt.Tag.Name)),
                 n.Text
             ))
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(ct);
     }
 }
 

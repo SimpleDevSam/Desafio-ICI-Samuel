@@ -5,6 +5,7 @@
          ? Url.Action("Edit", "News", new { id = Model.Id })
          : Url.Action("Create", "News"))">
     @Html.AntiForgeryToken()
+    <div class="text-danger mt-2" data-validation-summary></div>
 
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Título</label>
@@ -34,8 +35,6 @@
         <button type="submit" class="btn btn-primary">Salvar</button>
         <button type="button" class="btn btn-outline-secondary" data-close-news-form>Cancelar</button>
     </div>
-
-    <div class="text-danger mt-2" data-validation-summary></div>
 </form>
 
 @section Scripts {

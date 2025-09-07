@@ -59,7 +59,7 @@ public class NewsController : Controller
         {
             return NotFound();
         }
-           
+
         return PartialView("_View", news);
     }
 
@@ -70,7 +70,10 @@ public class NewsController : Controller
     [HttpPost("create")]
     public async Task<IActionResult> Create(NewsForm vm)
     {
-        if (!ModelState.IsValid) return BadRequest(Errors());
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(Errors());
+        }
         try
         {
             await _createHandler.Handle(vm);
@@ -127,12 +130,12 @@ public class NewsController : Controller
     {
         try
         {
-          await _deleteHandler.Handle(id);
-          TempData["msg"] = "Notícia deletada com sucesso.";
+            await _deleteHandler.Handle(id);
+            TempData["msg"] = "Notícia deletada com sucesso.";
         }
         catch (Exception ex)
         {
-          TempData["err"] = ex.Message;
+            TempData["err"] = ex.Message;
         }
 
         return RedirectToAction(nameof(Index));

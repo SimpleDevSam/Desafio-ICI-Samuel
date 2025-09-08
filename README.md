@@ -65,7 +65,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente.
     ```
 
 4.  **Aplique as Migrations para criar o banco de dados:**
-    Este comando irá criar o arquivo de banco de dados `database.db` na pasta `Data/DB/` do projeto.
+    Este comando irá criar o arquivo de banco de dados `DesafioIci.db` na pasta `Data/DB/` do projeto.
     ```sh
     dotnet ef database update
     ```
